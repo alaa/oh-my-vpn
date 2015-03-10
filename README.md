@@ -1,4 +1,4 @@
-# oh-my-vpn
+# oh-my-vpn!
 Setup your own OpenVPN server in 30 seconds! and secure your naked internet connections before it is too late.
 
 ### Installation:
@@ -11,7 +11,7 @@ run chef-solo
 After your run chef-solor your openvpn server will be ready to use, except you
 need to copy the key and certificate and install them into your favorite openvpn-client
 
-### Dependecies first!
+### Install the dependecies first:
 
 ```
 sudo aptitude update
@@ -20,7 +20,7 @@ sudo aptitude install -y ruby ruby-dev build-essential wget git
 sudo gem install ohai chef --no-rdoc --no-ri
 ```
 
-### Pull the repo and run Chef-solo
+### Pull-down the code and run chef-solo
 
 ```
 cd /tmp/ && git clone https://github.com/alaa/oh-my-vpn.git
