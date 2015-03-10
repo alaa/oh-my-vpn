@@ -33,10 +33,12 @@ end
 
 execute 'uncomment port-forwarding from sysctl' do
   command "sed -i '/#net.ipv4.ip_forward=1/c\net.ipv4.ip_forward=1/' /etc/sysctl.conf"
+  not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
 end
 
 execute 'allow openvpn traffic' do
   command "iptables -t nat -A POSTROUTING -s #{attr['network_address']}/24 -o #{attr['network_interface']} -j MASQUERADE"
+  not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
 end
 
 attr['acl'].each do |protocol, ports|
@@ -44,6 +46,7 @@ attr['acl'].each do |protocol, ports|
     execute "allow port: #{port}" do
       command "iptables -A INPUT -i #{attr['network_interface']} -p #{protocol} --dport #{port} -m state --state NEW,ESTABLISHED -j ACCEPT"
       command "iptables -A OUTPUT -o #{attr['network_interface']} -p #{protocol} --sport #{port} -m state --state ESTABLISHED -j ACCEPT"
+      not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
     end
   end
 end

@@ -40,22 +40,26 @@ end
 execute 'Build Root key and Server key' do
   command "/bin/bash -c './clean-all && source ./vars && ./pkitool --initca && ./pkitool --server #{attr['key_servername']}'"
   cwd '/etc/openvpn/easy-rsa'
-  not_if { ::File.exists?('/etc/openvpn/generated_by_chef.txt') }
+  not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
 end
 
 execute 'Move root key, crt' do
   command "bash -c 'cp ./keys/{ca.key,ca.crt} /etc/openvpn'"
   cwd '/etc/openvpn/easy-rsa'
-  not_if { ::File.exists?('/etc/openvpn/generated_by_chef.txt') }
+  not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
 end
 
 execute 'Move server key, csr and crt' do
   command "bash -c 'cp ./keys/#{attr['key_servername']}.{csr,crt,key} /etc/openvpn'"
   cwd '/etc/openvpn/easy-rsa'
-  not_if { ::File.exists?('/etc/openvpn/generated_by_chef.txt') }
+  not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
 end
 
 service 'openvpn' do
   action :restart
-  restart_command 'sudo service openvpn restart'
+end
+
+file '/etc/openvpn/provisioned.lock' do
+  content { Time.now }
+  only_if { `service openvpn status`.match(/is running/) }
 end
