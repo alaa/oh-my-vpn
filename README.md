@@ -33,5 +33,8 @@ sudo chef-solo -c /tmp/oh-my-vpn/solo.rb
 ### TODO
 - Generate Client SSL certificates
 - Email the client certificates to the user email
+- Make one-liner command for installation
 - Add recipe to configure the client machine
 - Write system tests on top of docker and kitchen
+- Pipe-line the project to Travis-ci for continous testing
+- Add Support Ubuntu [14.04, 13.10, 13.04, 12.10, 12.04] and Debian [7.4, 7.0]
