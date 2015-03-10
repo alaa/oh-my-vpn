@@ -25,7 +25,6 @@ sudo gem install ohai chef --no-rdoc --no-ri
 ```
 cd /tmp/ && git clone https://github.com/alaa/oh-my-vpn.git
 sudo chef-solo -c /tmp/oh-my-vpn/solo.rb
-
 ```
 ### Supporting Operating Systems
 
