@@ -3,15 +3,15 @@ Setup your own OpenVPN server in 30 seconds! and secure your naked internet conn
 
 ### Installation:
 Pick a new cheap server, CPU and Memory does not really matter
-Make sure you get ubuntu 14.10 as it is the only platfrom tested so far.
+Make sure you get Ubuntu 14.10 as it is the only platform tested so far.
 install the following dependencies
 Pull down the repository to your server
 run chef-solo
 
-After your run chef-solor your openvpn server will be ready to use, except you
+After your run chef-solo your OpenVPN server will be ready to use, except you
 need to copy the key and certificate and install them into your favorite openvpn-client
 
-### Install the dependecies first:
+### Install the dependencies first:
 
 ```
 sudo aptitude update
@@ -28,10 +28,10 @@ sudo chef-solo -c /tmp/oh-my-vpn/solo.rb
 ```
 ### Supporting Operating Systems
 
-``` ubuntu 14.10 ```
+``` Ubuntu 14.10 ```
 
 ### TODO
 - Generate Client SSL certificates
-- Email the client cetificates to the user email
+- Email the client certificates to the user email
 - Add recipe to configure the client machine
-- Write system tests on the top of docker and kitchen
+- Write system tests on top of docker and kitchen
