@@ -33,8 +33,8 @@ template "/etc/openvpn/easy-rsa/vars" do
 end
 
 execute 'Generate the Diffie-Hellman parameters' do
-  command 'openssl dhparam -out /etc/openvpn/dh2048.pem 2048'
-  not_if { ::File.exists?('/etc/openvpn/dh2048.pem') }
+  command "openssl dhparam -out /etc/openvpn/dh#{attr['dh_key_size']}.pem #{attr['dh_key_size']}"
+  not_if { ::File.exists?("/etc/openvpn/dh#{attr['dh_key_size']}.pem") }
 end
 
 execute 'Build Root key and Server key' do

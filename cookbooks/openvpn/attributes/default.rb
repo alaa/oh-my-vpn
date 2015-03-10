@@ -3,7 +3,6 @@ default['openvpn']['server']['packages'] = %w(openvpn easy-rsa ufw)
 default['openvpn']['server']['port'] = 1194
 default['openvpn']['server']['protocol'] = 'udp'
 default['openvpn']['server']['dev'] = 'tun'
-default['openvpn']['server']['dh_key'] = 'dh2048.pem'
 
 # Network
 default['openvpn']['server']['network_address'] = '10.8.0.0'

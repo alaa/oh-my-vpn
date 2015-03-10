@@ -6,3 +6,4 @@ default['easyrsa']['key_org'] = 'oppalla'
 default['easyrsa']['key_ email'] = 'youremail@example.com'
 default['easyrsa']['key_ou'] = 'myoppallaorganizationunit'
 default['easyrsa']['key_servername'] = 'myopenvpn'
+default['easyrsa']['dh_key_size'] = 2048
