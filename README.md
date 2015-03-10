@@ -30,3 +30,9 @@ sudo chef-solo -c /tmp/oh-my-vpn/solo.rb
 ### Supporting Operating Systems
 
 ``` ubuntu 14.10 ```
+
+### TODO
+- Generate Client SSL certificates
+- Email the client cetificates to the user email
+- Add recipe to configure the client machine
+- Write system tests on the top of docker and kitchen
