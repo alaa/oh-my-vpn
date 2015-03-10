@@ -12,7 +12,7 @@ template '/etc/openvpn/server.conf' do
     port: attr['port'],
     protocol: attr['protocol'],
     dev: attr['dev'],
-    dh_key: attr['dh_key'],
+    dh_key: node['easyrsa']['dh_key_size'],
     network_address: attr['network_address'],
     network_subnet: attr['network_subnet'],
     dns_servers: attr['dns_servers'],
