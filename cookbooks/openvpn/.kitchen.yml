@@ -1,6 +1,6 @@
 ---
 driver:
-  name: docker
+  name: vagrant
 
 provisioner:
   name: chef_solo
@@ -9,8 +9,8 @@ platforms:
   - name: ubuntu-14.10
 
 suites:
-  - name: default
+  - name: openvpn
     run_list:
-      - 'recipe[openvpn::default]'
-      - 'recipe[openvpn::easyrsa]'
+      - recipe[openvpn::default]
+      - recipe[openvpn::easyrsa]
     attributes:

@@ -188,7 +188,7 @@ ifconfig-pool-persist ipp.txt
 # or bridge the TUN/TAP interface to the internet
 # in order for this to work properly).
 <% if @enable_redirect_gateway %>
-  push "redirect-gateway def1 bypass-dhcp"
+push "redirect-gateway def1 bypass-dhcp"
 <% end %>
 # Certain Windows-specific network settings
 # can be pushed to clients, such as DNS
@@ -197,7 +197,7 @@ ifconfig-pool-persist ipp.txt
 # The addresses below refer to the public
 # DNS servers provided by opendns.com.
 <% @dns_servers.each do |server| %>
-  push "dhcp-option DNS #{server}"
+push "dhcp-option DNS #{server}"
 <% end %>
 
 # Uncomment this directive to allow different
@@ -207,7 +207,7 @@ ifconfig-pool-persist ipp.txt
 # will also need to appropriately firewall the
 # server's TUN/TAP interface.
 <% if @enable_client_to_client %>
-  client-to-client
+client-to-client
 <% end %>
 
 # Uncomment this directive if multiple clients
@@ -256,7 +256,7 @@ keepalive 1 3
 # If you enable it here, you must also
 # enable it in the client config file.
 <% if @enable_compression %>
-  comp-lzo
+comp-lzo
 <% end %>
 
 # The maximum number of concurrently connected
