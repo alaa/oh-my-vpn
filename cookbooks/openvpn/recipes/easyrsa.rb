@@ -13,10 +13,13 @@ directory '/etc/openvpn/easy-rsa/keys' do
   action :create
 end
 
-%w(index.txt serial).each do |f|
-  file "/etc/openvpn/easy-rsa/keys/#{f}" do
-    action :create
-  end
+file "/etc/openvpn/easy-rsa/keys/serial" do
+  action :create
+  content '01'
+end
+
+file "/etc/openvpn/easy-rsa/keys/index.txt" do
+  action :create
 end
 
 template "/etc/openvpn/easy-rsa/vars" do
