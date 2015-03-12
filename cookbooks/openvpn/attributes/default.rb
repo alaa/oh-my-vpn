@@ -9,7 +9,7 @@ default['openvpn']['server']['network_address'] = '10.8.0.0'
 default['openvpn']['server']['network_subnet'] = '255.255.255.0'
 default['openvpn']['server']['network_interface'] = node['network']['default_interface']
 default['openvpn']['server']['dns_servers'] = ['109.74.192.20', '109.74.193.20']
-default['openvpn']['server']['acl'] = { 'tcp' => [80, 443, 53, 22], 'udp' => [53, 1194] }
+default['openvpn']['server']['acl'] = { 'tcp' => [53, 22], 'udp' => [53, 1194] }
 
 # Auth
 default['openvpn']['server']['user'] = 'nobody'

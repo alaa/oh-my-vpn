@@ -66,7 +66,7 @@ describe interface('tun0') do
 end
 
 describe iptables do
-  {udp: [1194, 53], tcp: [53, 80, 443]}.each do |proto, ports|
+  {udp: [1194, 53], tcp: [53]}.each do |proto, ports|
     ports.each do |port|
       it { should have_rule("-A OUTPUT -o eth0 -p #{proto} -m #{proto} --sport #{port} -m state --state ESTABLISHED -j ACCEPT") }
       it { should have_rule("-A INPUT -i eth0 -p #{proto} -m #{proto} --dport #{port} -m state --state NEW,ESTABLISHED -j ACCEPT") }
