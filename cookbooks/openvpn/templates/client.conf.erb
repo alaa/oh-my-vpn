@@ -1,0 +1,26 @@
+client
+dev tun
+proto udp
+remote <%=node['network']['ip_address']%> 1194
+resolv-retry infinite
+nobind
+user nobody
+group nogroup
+persist-key
+persist-tun
+
+<ca>
+<%=@ca%>
+</ca>
+
+<cert>
+<%=@cert%>
+</cert>
+
+<key>
+<%=@key%>
+</key>
+
+ns-cert-type server
+comp-lzo
+verb 3
