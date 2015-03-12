@@ -7,6 +7,7 @@ provisioner:
 
 platforms:
   - name: ubuntu-14.10
+  - name: ubuntu-13.10
 
 suites:
   - name: openvpn
