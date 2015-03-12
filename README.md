@@ -3,7 +3,6 @@ Setup your own OpenVPN server in 30 seconds! and secure your naked internet conn
 
 ### Server Setup
 Pick a new cheap server, CPU and Memory does not really matter
-Make sure you get Ubuntu 14.10 as it is the only platform tested so far.
 Install the required dependencies
 Pull down the repository to your server
 run chef-solo
@@ -32,10 +31,11 @@ After your run chef-solo, your OpenVPN server will be ready:
 ### Supporting Operating Systems
 
 ``` Ubuntu 14.10 ```
+``` Ubuntu 13.10 ```
 
 ### TODO
 - Email the client certificates to the user email
 - Make one-liner command for installation
 - Add recipe to configure the client machine
 - Pipe-line the project to Travis-ci for continous testing
-- Add Support Ubuntu [14.04, 13.10, 13.04, 12.10, 12.04] and Debian [7.4, 7.0]
+- Add Support Ubuntu [14.04, 13.04, 12.10, 12.04] and Debian [7.4, 7.0]
