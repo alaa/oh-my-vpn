@@ -8,15 +8,17 @@ require 'spec_helper'
 @root_crt = File.join(@openvpn_home, 'ca.crt')
 @root_key = File.join(@openvpn_home, 'ca.key')
 @server_crt = File.join(@openvpn_home, 'myopenvpn.crt')
-@server_csr = File.join(@openvpn_home, 'myopenvpn.csr')
+@server_csr = File.join(@easyrsa_keys, 'myopenvpn.csr')
 @server_key = File.join(@openvpn_home, 'myopenvpn.key')
 
 @server_config = File.join(@openvpn_home, 'server.conf')
 @openssl_1_0_0 = File.join(@easyrsa_home, 'openssl-1.0.0.cnf')
 @vars = File.join(@easyrsa_home, 'vars')
 
+@client_config = File.join('/root/', 'client.conf')
+
 @files = [@root_key, @root_crt, @server_crt, @server_key, @server_csr,
-          @server_config, @openssl_1_0_0, @vars]
+          @server_config, @openssl_1_0_0, @vars, @client_config]
 
 @dirs = [@openvpn_home, @easyrsa_home, @easyrsa_keys]
 
@@ -24,6 +26,10 @@ require 'spec_helper'
 @files.each do |file|
   describe file(file) do
     it { should be_file }
+  end
+
+  describe command("du -sh #{file}") do
+    its(:stdout) { should_not match(/^0/) }
   end
 end
 
@@ -49,4 +55,21 @@ describe file(@server_config) do
   its(:content) { should match(/^comp\-lzo/) }
   its(:content) { should match(/^user nobody/) }
   its(:content) { should match(/^group nogroup/) }
+end
+
+describe port(1194) do
+  it { should be_listening.with('udp') }
+end
+
+describe interface('tun0') do
+  it { should exist }
+end
+
+describe iptables do
+  {udp: [1194, 53], tcp: [53, 80, 443]}.each do |proto, ports|
+    ports.each do |port|
+      it { should have_rule("-A OUTPUT -o eth0 -p #{proto} -m #{proto} --sport #{port} -m state --state ESTABLISHED -j ACCEPT") }
+      it { should have_rule("-A INPUT -i eth0 -p #{proto} -m #{proto} --dport #{port} -m state --state NEW,ESTABLISHED -j ACCEPT") }
+    end
+  end
 end
