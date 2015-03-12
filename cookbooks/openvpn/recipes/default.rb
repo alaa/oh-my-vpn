@@ -1,5 +1,9 @@
 attr = node['openvpn']['server']
 
+execute 'update apt cache' do
+  command 'apt-get update'
+end
+
 attr['packages'].each do |pkg|
   package pkg do
     action :install
@@ -34,25 +38,28 @@ end
 
 execute 'uncomment port-forwarding from sysctl' do
   command "sed -i '/#net.ipv4.ip_forward=1/c\net.ipv4.ip_forward=1/' /etc/sysctl.conf"
-  not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
+  not_if { Filter.provisioned? }
 end
 
 execute 'allow openvpn traffic' do
+  user 'root'
   command "iptables -t nat -A POSTROUTING -s #{attr['network_address']}/24 -o #{attr['network_interface']} -j MASQUERADE"
-  not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
+  not_if { Filter.provisioned? }
 end
 
 attr['acl'].each do |protocol, ports|
   ports.each do |port|
 
     execute "INPUT ACL" do
+      user 'root'
       command "iptables -A INPUT -i #{attr['network_interface']} -p #{protocol} --dport #{port} -m state --state NEW,ESTABLISHED -j ACCEPT"
-      not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
+      not_if { Filter.provisioned? }
     end
 
     execute "OUTPUT ACL" do
+      user 'root'
       command "iptables -A OUTPUT -o #{attr['network_interface']} -p #{protocol} --sport #{port} -m state --state ESTABLISHED -j ACCEPT"
-      not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
+      not_if { Filter.provisioned? }
     end
 
   end

@@ -1,13 +1,18 @@
 ---
 driver:
-  name: vagrant
+  name: docker
+  privileged: true
 
 provisioner:
   name: chef_solo
 
 platforms:
   - name: ubuntu-14.10
+  - name: ubuntu-14.04
   - name: ubuntu-13.10
+  - name: debian-7.4
+  - name: debian-7.6
+  - name: debian-7.8
 
 suites:
   - name: openvpn

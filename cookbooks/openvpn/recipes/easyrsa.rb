@@ -1,7 +1,11 @@
 attr = node['easyrsa']
 
 execute "bootstraping easy-rsa files" do
-  command "cp -r /usr/share/easy-rsa/ /etc/openvpn"
+  if node['platform'] == 'debian'
+    command "mkdir /etc/openvpn/easy-rsa && cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0/* /etc/openvpn/easy-rsa/"
+  else
+    command "cp -r /usr/share/easy-rsa/ /etc/openvpn"
+  end
   not_if { ::File.directory? '/etc/openvpn/easy-rsa' }
 end
 
@@ -36,7 +40,7 @@ end
 execute 'clean old certifications/keys' do
   command "./clean-all"
   cwd '/etc/openvpn/easy-rsa'
-  not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
+  not_if { Filter.provisioned? }
 end
 
 execute 'Generate the Diffie-Hellman key' do
@@ -47,51 +51,55 @@ end
 execute 'build root cert' do
   command "/bin/bash -c './clean-all && source ./vars && ./pkitool --initca --batch'"
   cwd '/etc/openvpn/easy-rsa'
-  not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
+  not_if { Filter.provisioned? }
 end
 
 execute 'build server cert/key' do
   command "/bin/bash -c 'source ./vars && ./pkitool --server #{attr['key_servername']} --batch'"
   cwd '/etc/openvpn/easy-rsa'
-  not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
+  not_if { Filter.provisioned? }
 end
 
 execute 'build client cert/key' do
   command "/bin/bash -c '> keys/index.txt && source ./vars && ./pkitool client --batch'"
   cwd '/etc/openvpn/easy-rsa'
-  not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
+  not_if { Filter.provisioned? }
 end
 
 execute 'Move root cert/key to openvpn home' do
   command "bash -c 'cp ./keys/{ca.key,ca.crt} /etc/openvpn'"
   cwd '/etc/openvpn/easy-rsa'
-  not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
+  not_if { Filter.provisioned? }
 end
 
 execute 'Move server cert/key to openvpn home' do
   command "bash -c 'cp ./keys/#{attr['key_servername']}.{crt,key} /etc/openvpn'"
   cwd '/etc/openvpn/easy-rsa'
-  not_if { ::File.exists?('/etc/openvpn/provisioned.lock') }
+  not_if { Filter.provisioned? }
 end
 
 service 'openvpn' do
   action :restart
+  restart_command 'sudo service openvpn restart'
 end
 
 file '/etc/openvpn/provisioned.lock' do
+  user 'root'
   content { Time.now }
   only_if { `service openvpn status`.match(/is running/) }
 end
 
 template '/root/client.conf' do
   source 'client.conf.erb'
+  user 'root'
+  group 'root'
   variables(
-    lazy {
+    lazy do
       {
         ca:   File.open('/etc/openvpn/ca.crt').read,
         cert: File.open("/etc/openvpn/easy-rsa/keys/client.crt").read,
         key:  File.open("/etc/openvpn/easy-rsa/keys/client.key").read
       }
-    }
+    end
   )
 end

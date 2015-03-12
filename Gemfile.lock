@@ -133,3 +133,4 @@ DEPENDENCIES
   kitchen-vagrant
   ohai
   serverspec
+  test-kitchen

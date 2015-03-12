@@ -1,5 +1,9 @@
 # Defaults
-default['openvpn']['server']['packages'] = %w(openvpn easy-rsa ufw)
+packages = %w(openvpn iptables)
+if node['platform'] != "debian"
+  packages += ['easy-rsa']
+end
+default['openvpn']['server']['packages'] = packages
 default['openvpn']['server']['port'] = 1194
 default['openvpn']['server']['protocol'] = 'udp'
 default['openvpn']['server']['dev'] = 'tun'
