@@ -18,6 +18,7 @@ default['openvpn']['server']['acl'] = { 'tcp' => [53, 22], 'udp' => [53, 1194] }
 # Auth
 default['openvpn']['server']['user'] = 'nobody'
 default['openvpn']['server']['group'] = 'nogroup'
+default['openvpn']['server']['max_clients'] = 3
 
 # Flags
 default['openvpn']['server']['enable_redirect_gateway'] = true

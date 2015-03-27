@@ -1,9 +1,6 @@
 # oh-my-vpn!
 Setup your own OpenVPN server in ~30 seconds! and secure your naked internet connections before it is too late.
 
-### Why?
-If you are not paranoid about security, well you should start reading!
-
 ### Server Setup
 Pick a new cheap server, CPU and Memory does not really matter
 Cloud providers are awesome for this setup
@@ -23,6 +20,7 @@ The client config files are actually ```Readable``` and ```Identical```, But som
 
 - Install OpenVPN client your machine.
 - Copy the client configurations file ```client.conf``` or ```client.ovpn``` and import it to your favorite OpenVPN client.
+- Server supports up to 3 connected clients, assuming you use it on your Laptop, Smart-Phone and Tablet.
 
 ### Supported Operating Systems (Tested):
 

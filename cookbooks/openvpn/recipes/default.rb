@@ -22,6 +22,7 @@ template '/etc/openvpn/server.conf' do
     dns_servers: attr['dns_servers'],
     server: node['easyrsa']['key_servername'],
     user: attr['user'],
+    max_clients: attr['max_clients'],
     group: attr['group'],
     enable_redirect_gateway: attr['enable_redirect_gateway'],
     enable_client_to_client: attr['enable_client_to_client'],

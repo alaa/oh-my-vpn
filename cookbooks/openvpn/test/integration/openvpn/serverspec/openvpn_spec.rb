@@ -50,6 +50,7 @@ describe file(@server_config) do
   its(:content) { should match(/^proto udp/) }
   its(:content) { should match(/^dev tun/) }
   its(:content) { should match(/^dh dh2048.pem/) }
+  its(:content) { should match(/^max\-clients 3/) }
   its(:content) { should match(/^push \"redirect-gateway def1 bypass-dhcp\"/) }
   its(:content) { should match(/^push \"dhcp\-option DNS/) }
   its(:content) { should match(/^client\-to\-client/) }
