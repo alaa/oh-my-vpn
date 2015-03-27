@@ -16,9 +16,10 @@ require 'spec_helper'
 @vars = File.join(@easyrsa_home, 'vars')
 
 @client_config = File.join('/root/', 'client.conf')
+@client_ovpn = File.join('/root/', 'client.ovpn')
 
 @files = [@root_key, @root_crt, @server_crt, @server_key, @server_csr,
-          @server_config, @openssl_1_0_0, @vars, @client_config]
+          @server_config, @openssl_1_0_0, @vars, @client_config, @client_ovpn]
 
 @dirs = [@openvpn_home, @easyrsa_home, @easyrsa_keys]
 

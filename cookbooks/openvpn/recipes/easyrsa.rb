@@ -89,17 +89,19 @@ file '/etc/openvpn/provisioned.lock' do
   only_if { `service openvpn status`.match(/is running/) }
 end
 
-template '/root/client.conf' do
-  source 'client.conf.erb'
-  user 'root'
-  group 'root'
-  variables(
-    lazy do
-      {
-        ca:   File.open('/etc/openvpn/ca.crt').read,
-        cert: File.open("/etc/openvpn/easy-rsa/keys/client.crt").read,
-        key:  File.open("/etc/openvpn/easy-rsa/keys/client.key").read
-      }
-    end
-  )
+['client.conf', 'client.ovpn'].each do |file|
+  template "/root/#{file}" do
+    source 'client.conf.erb'
+    user 'root'
+    group 'root'
+    variables(
+      lazy do
+        {
+          ca:   File.open('/etc/openvpn/ca.crt').read,
+          cert: File.open("/etc/openvpn/easy-rsa/keys/client.crt").read,
+          key:  File.open("/etc/openvpn/easy-rsa/keys/client.key").read
+        }
+      end
+    )
+  end
 end
