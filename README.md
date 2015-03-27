@@ -1,23 +1,28 @@
 # oh-my-vpn!
 Setup your own OpenVPN server in ~30 seconds! and secure your naked internet connections before it is too late.
 
+### Why?
+If you are not paranoid about security, well you should start reading!
+
 ### Server Setup
 Pick a new cheap server, CPU and Memory does not really matter
-The following one-liner script installs Chef and related depedencies and provision openvpn-server and generates the client configuration file.
+Cloud providers are awesome for this setup
 
 ### Use the one-liner script (Server):
 ```
 curl -L https://git.io/pdTu | sh
 ```
-A generated file for openvpn-client should exist at ```/root/client.conf```
+This will take care about setting up the Server for you, and generates the client config files for you at the following paths:
+
+- ```/root/client.conf```
+- ```/root/client.ovpn```
+
+The client config files are actually ```Readable``` and ```Identical```, But some OpenVPN clients requires different file extension.
 
 ### Post-Installation (Client):
 
-- Install OpenVPN on your machine.
-- Copy the client-config and place it under your OpenVPN client configuration directory  ```/etc/openvpn```
-- Restart openvpn service on your laptop ``` service openvpn restart```
-
-If you are using GUI OpenVPN client, you can just read the generated configuration file and replicate the config to your GUI client, ```It is readable by humans```. Also you will find the SSL certificates embded into the file. 
+- Install OpenVPN client your machine.
+- Copy the client configurations file ```client.conf``` or ```client.ovpn``` and import it to your favorite OpenVPN client.
 
 ### Supported Operating Systems (Tested):
 
