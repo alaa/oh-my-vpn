@@ -15,7 +15,7 @@ push "redirect-gateway def1 bypass-dhcp"
 <% end %>
 
 <% @dns_servers.each do |server| %>
-push "dhcp-option DNS #{server}"
+push "dhcp-option DNS <%= server %>"
 <% end %>
 
 <% if @enable_client_to_client %>
