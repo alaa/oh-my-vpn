@@ -85,7 +85,7 @@ end
 
 file '/etc/openvpn/provisioned.lock' do
   user 'root'
-  content { Time.now }
+  content "provisioned"
   only_if { `service openvpn status`.match(/is running/) }
 end
 
